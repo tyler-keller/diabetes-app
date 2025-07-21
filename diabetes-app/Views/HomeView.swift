@@ -25,10 +25,12 @@ struct HomeView: View {
             } else {
                 Text("No data yet")
             }
+            
+            Text("Live CGM Scatter Plot")
+                .font(.headline)
+                .padding(.leading)
+
+            CGMChartView(cgmData: cgmData)
         }
     }
-}
-
-#Preview {
-    HomeView()
 }

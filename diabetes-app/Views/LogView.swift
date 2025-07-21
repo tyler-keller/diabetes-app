@@ -12,7 +12,3 @@ struct LogView: View {
         Text("Log Screen")
     }
 }
-
-#Preview {
-    LogView()
-}
