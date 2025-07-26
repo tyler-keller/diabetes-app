@@ -11,6 +11,7 @@ import Charts
 
 struct CGMChartView: View {
     @ObservedObject var cgmData: DummyCGMData
+    @State private var isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
 
     var body: some View {
         Chart {
@@ -54,7 +55,11 @@ struct CGMChartView: View {
                 }
             }
         }
-        .frame(height: 300)
+        .frame(maxWidth: .infinity)
+        .frame(height: isLandscape ? 350 : 300)
         .padding()
+        .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
+            isLandscape = UIDevice.current.orientation.isLandscape
+        }
     }
 }
