@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct diabetes_appApp: App {
+    init() {
+        NotificationManager.shared.requestAuthorization()
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
