@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import HealthKit
 
 @main
 struct diabetes_appApp: App {
+    init() {
+        HealthKitManager.shared.requestAuthorization { _, _ in }
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -6,16 +6,19 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct HomeView: View {
     @StateObject private var cgmData = DummyCGMData()
+    @State private var hkReadings: [EGVReading] = []
+    @State private var usingHealthKit = false
 
     var body: some View {
         VStack {
             Text("Latest CGM Reading")
                 .font(.headline)
 
-            if let latest = cgmData.readings.last {
+            if let latest = (usingHealthKit ? hkReadings.last : cgmData.readings.last) {
                 Text("\(latest.value) mg/dL")
                     .font(.largeTitle)
                     .bold()
@@ -30,7 +33,18 @@ struct HomeView: View {
                 .font(.headline)
                 .padding(.leading)
 
-            CGMChartView(cgmData: cgmData)
+            CGMChartView(readings: usingHealthKit ? hkReadings : cgmData.readings)
+        }
+        .onAppear {
+            HealthKitManager.shared.requestAuthorization { success, _ in
+                guard success else { return }
+                HealthKitManager.shared.fetchRecentGlucoseSamples { samples in
+                    DispatchQueue.main.async {
+                        self.hkReadings = samples
+                        self.usingHealthKit = true
+                    }
+                }
+            }
         }
     }
 }

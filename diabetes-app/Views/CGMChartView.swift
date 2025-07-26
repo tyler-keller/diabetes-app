@@ -10,11 +10,11 @@ import SwiftUI
 import Charts
 
 struct CGMChartView: View {
-    @ObservedObject var cgmData: DummyCGMData
+    var readings: [EGVReading]
 
     var body: some View {
         Chart {
-            ForEach(cgmData.readings) { reading in
+            ForEach(readings) { reading in
                 PointMark(
                     x: .value("Time", reading.displayTime),
                     y: .value("Glucose (mg/dL)", reading.value)
