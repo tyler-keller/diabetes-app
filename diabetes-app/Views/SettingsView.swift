@@ -9,7 +9,13 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text("Settings Screen")
+        VStack {
+            Text("Settings Screen")
+            Button("Test Missed Bolus Notification") {
+                NotificationManager.shared.scheduleMissedBolusNotification()
+            }
+            .padding()
+        }
     }
 }
 
